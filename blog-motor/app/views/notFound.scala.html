@@ -1,0 +1,11 @@
+@(headerTitle: String, categories: Seq[String])
+
+@main("Page Not Found") {
+  @views.html.partials.header(headerTitle, categories) <!-- Include the header template -->
+
+  <div class="not-found">
+    <h2>404 - Page Not Found</h2>
+    <p>The thing you are looking for does not exist or has been removed.</p>
+    <a href="@routes.HomeController.listHtml()" class="btn">Go Back to Home</a>
+  </div>
+}

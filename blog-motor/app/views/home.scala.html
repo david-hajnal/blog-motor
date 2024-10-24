@@ -1,0 +1,18 @@
+@(blogPosts: Seq[models.BlogPost], headerTitle: String, categories: Seq[String])
+
+@main("Home") {
+  @views.html.partials.header(headerTitle, categories)
+
+  <div class="blog-posts-container">
+  @for(blogPost <- blogPosts) {
+    <div class="blog-post">
+      <div class="blog-post-thumbnail">
+        <img src="@blogPost.thumbnailUrl" alt="Thumbnail for @blogPost.title" />
+      </div>
+      <div class="blog-post-title">
+        <a href="@routes.HomeController.show(blogPost.id.get)">@blogPost.title</a>
+      </div>
+    </div>
+  }
+  </div>
+}

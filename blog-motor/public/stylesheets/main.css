@@ -1,0 +1,159 @@
+/* Apply the new color palette */
+
+/* Main container styling for dark theme */
+body {
+  background-color: #000;
+  color: #E0E0E0; /* Light text color for contrast */
+  font-family: "Courier New", monospace;
+}
+
+/* Blog posts container */
+.blog-posts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px; /* Space between the posts */
+  justify-content: center; /* Center the posts */
+  padding: 1px;
+  border-radius: 8px;
+  margin-top: 100px;
+}
+
+/* Blog post styling */
+.blog-post {
+  flex: 1 1 calc(33.33% - 32px); /* 3 posts per row */
+  box-sizing: border-box;
+  max-width: 34%;
+  min-width: 250px;
+  background-color: #0c0d0d; /* Dark green background for the card */
+  padding: 16px;
+  border-radius: 3px;
+  color: #E0E0E0; /* Light text color */
+  border: 1px solid #1d201f; /* Green border */
+  position: relative;
+  transition: transform 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.blog-post:hover {
+  transform: scale(1.01);
+}
+
+/* Thumbnail styling */
+.blog-post-thumbnail {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.blog-post-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Blog post content styling */
+.blog-post-content {
+  margin-bottom: 40px; /* Leave space for the title at the bottom */
+}
+
+/* Title styling - initially hidden */
+.blog-post-title {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.blog-post:hover .blog-post-title {
+  opacity: 1;
+}
+
+.blog-post-title a {
+  color: #8EC649; /* Light green color for links */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.blog-post-title a:hover {
+  text-decoration: underline;
+}
+
+/* Pagination styling */
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #FFD100; /* Yellow color for pagination links */
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+.pagination span {
+  margin: 0 10px;
+  color: #E0E0E0;
+}
+
+/* Button styling */
+button {
+  background-color: #006641; /* Green button color */
+  color: #E0E0E0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #8EC649; /* Lighter green on hover */
+}
+
+/* Error or warning messages */
+.alert {
+  background-color: #b04f4a; /* Red color for alerts */
+  color: #E0E0E0;
+  padding: 10px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Header styling */
+.site-header {
+  background-color: #0E1219;
+  color: #FFD100;
+  padding: 10px;
+  text-align: left;
+  border-radius: 1px;
+  margin-bottom: 4px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+/* Category navigation */
+.category-nav {
+  margin-top: 15px;
+}
+
+.category-nav a {
+  color: #3b403e;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+.category-nav a:hover {
+  text-decoration: underline;
+}
