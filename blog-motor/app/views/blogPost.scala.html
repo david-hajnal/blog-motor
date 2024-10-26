@@ -3,5 +3,5 @@
 @main("Blog Post") {
   @views.html.partials.header(headerTitle, categories)
   <h1>@blogPost.title</h1>
-  <p>@blogPost.content</p>
+  <p>@Html(blogPost.content)</p>
 }

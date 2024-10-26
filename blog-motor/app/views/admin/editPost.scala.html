@@ -1,0 +1,41 @@
+@(id: Long, blogPostForm: Form[models.BlogPost], tinyMceApiKey: String, images: Seq[Image])(implicit request: RequestHeader, messages: play.api.i18n.Messages)
+
+@main("Admin - Edit Blog Post") {
+  @views.html.partials.admin_header("Admin", Seq.empty[String])
+  <h1>Edit Blog Post</h1>
+  @helper.form(action = routes.AdminController.updatePost(id)) {
+    @helper.CSRF.formField
+    @helper.inputText(blogPostForm("title"))
+    @helper.inputText(blogPostForm("category"))
+    @helper.textarea(blogPostForm("content"))
+    @helper.textarea(blogPostForm("slug"))
+
+    <label for="thumbnailUrl">Thumbnail</label>
+    <select name="thumbnailUrl" id="thumbnailUrl">
+      <option value="">Select an image</option>
+      @for(image <- images) {
+        <option value="@image.id">@image.name</option>
+      }
+    </select>
+    <button type="submit" class="btn">Update Post</button>
+
+      <!-- Include TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/@tinyMceApiKey/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+          selector: 'textarea[name="content"]',
+          height: 400,
+          menubar: true,
+          extended_valid_elements: 'iframe[src|width|height|frameborder|allowfullscreen|allow|style|scrolling]',
+          plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+          ],
+          toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                      alignleft aligncenter alignright alignjustify | \
+                      bullist numlist outdent indent | removeformat | code | help'
+        });
+    </script>
+  }
+}

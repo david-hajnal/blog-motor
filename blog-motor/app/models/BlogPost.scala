@@ -7,6 +7,7 @@ case class BlogPost(
   id: Option[Long],
   title: String,
   content: String,
+  slug: String,
   category: String,
   date: OffsetDateTime,
   thumbnailUrl: String

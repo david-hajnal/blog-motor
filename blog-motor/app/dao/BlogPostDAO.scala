@@ -28,6 +28,10 @@ class BlogPostDAO @Inject() (dbProvider: DatabaseConfigProvider)(implicit ec: Ex
     db.run(blogPosts.sortBy(_.date.desc).result)
   }
 
+  def deleteById(id: Long): Future[Int] = {
+    db.run(blogPosts.filter(_.id === id).delete)
+  }
+
   def findById(id: Long): Future[Option[BlogPost]] =
     db.run(blogPosts.filter(_.id === id).result.headOption)
 
@@ -42,6 +46,10 @@ class BlogPostDAO @Inject() (dbProvider: DatabaseConfigProvider)(implicit ec: Ex
       .map(post => (post.title, post.content, post.category, post.date))
       .update((blogPost.title, blogPost.content, blogPost.category, blogPost.date))
     db.run(updateQuery)
+  }
+
+  def findBySlug(slug: String): Future[Option[BlogPost]] = {
+    db.run(blogPosts.filter(_.slug === slug).result.headOption)
   }
 
   def delete(id: Long): Future[Int] = db.run(blogPosts.filter(_.id === id).delete)

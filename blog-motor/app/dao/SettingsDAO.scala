@@ -20,4 +20,8 @@ class SettingsDAO @Inject()(dbProvider: DatabaseConfigProvider)(implicit ec: Exe
   def getSetting(key: String): Future[Option[String]] = {
     db.run(settings.filter(_.key === key).map(_.value).result.headOption)
   }
+
+  def updateSetting(key: String, value: String): Future[Int] = {
+    db.run(settings.insertOrUpdate((key, value)))
+  }
 }

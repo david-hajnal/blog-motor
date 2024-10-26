@@ -1,0 +1,15 @@
+@(settingsForm: Form[forms.SettingsForm])(implicit request: RequestHeader, messages: play.api.i18n.Messages)
+
+@main("Edit Settings") {
+  @views.html.partials.admin_header("Admin", Seq.empty[String])
+  <h1>Edit Settings</h1>
+  @helper.form(action = routes.AdminController.updateSettings()) {
+    @helper.CSRF.formField
+
+    <div>
+    @helper.inputText(settingsForm("headerTitle"), Symbol("_label") -> "Header Title")
+    </div>
+
+    <button type="submit" class="btn">Save Settings</button>
+  }
+}

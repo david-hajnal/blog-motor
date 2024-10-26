@@ -57,4 +57,5 @@ class BlogPostController @Inject()(cc: ControllerComponents, blogPostDAO: BlogPo
       case _ => NoContent
     }
   }
+
 }

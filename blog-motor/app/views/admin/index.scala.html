@@ -1,0 +1,13 @@
+@(title: String)
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>@title</title>
+    <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
+  </head>
+  <body>
+      @views.html.partials.admin_header("Admin", Seq.empty[String])
+  </body>
+</html>

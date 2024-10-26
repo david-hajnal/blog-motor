@@ -3,9 +3,23 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-GET     /                           controllers.HomeController.listHtml()
-GET     /p/:id                      controllers.HomeController.show(id: Long)
-GET     /p/page/:page               controllers.BlogPostController.listPaginated(page: Int)
+GET         /                              controllers.HomeController.listHtml()
+GET         /p/page/:page                  controllers.BlogPostController.listPaginated(page: Int)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)
+
+GET         /admin/                        controllers.AdminController.index()
+GET         /admin/posts                   controllers.AdminController.listPosts()
+GET         /admin/posts/new               controllers.AdminController.newPost()
+POST        /admin/posts                   controllers.AdminController.createPost()
+GET         /admin/posts/:id/edit          controllers.AdminController.editPost(id: Long)
+POST        /admin/posts/:id               controllers.AdminController.updatePost(id: Long)
+POST        /admin/posts/:id/delete        controllers.AdminController.deletePost(id: Long)
+GET         /admin/posts/:id/view          controllers.AdminController.viewPost(id: Long)
+POST        /admin/uploadImage             controllers.AdminController.uploadImage()
+GET         /admin/uploadImage             controllers.AdminController.showUploadImageForm()
+# Routes for editing settings
+GET         /admin/settings                controllers.AdminController.editSettings()
+POST        /admin/settings                controllers.AdminController.updateSettings()
+GET         /:slug                         controllers.HomeController.show(slug: String)

@@ -10,7 +10,7 @@
         <img src="@blogPost.thumbnailUrl" alt="Thumbnail for @blogPost.title" />
       </div>
       <div class="blog-post-title">
-        <a href="@routes.HomeController.show(blogPost.id.get)">@blogPost.title</a>
+        <a href="@routes.HomeController.show(blogPost.slug)">@blogPost.title</a>
       </div>
     </div>
   }

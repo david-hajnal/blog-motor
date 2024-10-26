@@ -1,10 +1,10 @@
 @(headerTitle: String, categories: Seq[String])
 
 <header class="site-header">
-  <h1>@headerTitle</h1>
+  <h1><a href="/">@headerTitle</a></h1>
   <nav class="category-nav">
-  @for(category <- categories) {
-    <a href="@routes.BlogPostController.listPaginated(1)?category=@category">@category</a>
-  }
+    @for(category <- categories) {
+      <a href="@routes.BlogPostController.listPaginated(1)?category=@category">@category</a>
+    }
   </nav>
 </header>

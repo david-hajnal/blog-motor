@@ -1,0 +1,35 @@
+@(posts: Seq[models.BlogPost])(implicit request: RequestHeader, messages: play.api.i18n.Messages)
+
+@main("Admin - Blog Posts") {
+  @views.html.partials.admin_header("Admin", Seq.empty[String])
+  <h1>Blog Posts</h1>
+  <a href="@routes.AdminController.newPost()" class="btn">Create New Post</a>
+  <a href="@routes.AdminController.showUploadImageForm()" class="btn">Upload Image</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Slug</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for(post <- posts) {
+      <tr>
+        <td>@post.title</td>
+        <td>@post.category</td>
+        <td>@post.slug</td>
+        <td>
+          <a href="@routes.AdminController.viewPost(post.id.get)">View</a> |
+          <a href="@routes.AdminController.editPost(post.id.get)">Edit</a> |
+          <form action="@routes.AdminController.deletePost(post.id.get)" method="POST" style="display: inline;">
+            @helper.CSRF.formField
+          <button type="submit" class="btn btn-danger" onclick="return confirm(
+              'Are you sure you want to delete this post?')">Delete</button>
+          </form> </td>
+      </tr>
+    }
+    </tbody>
+  </table>
+}

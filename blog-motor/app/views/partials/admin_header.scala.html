@@ -1,0 +1,10 @@
+@(headerTitle: String, categories: Seq[String])
+
+<header class="site-header">
+  <h1><a href="/">@headerTitle</a></h1>
+  <nav class="category-nav">
+    <a href="@routes.AdminController.listPosts()">Edit posts</a>
+    <a href="@routes.AdminController.showUploadImageForm()">Upload Image</a>
+    <a href="@routes.AdminController.editSettings()">Edit Settings</a>
+  </nav>
+</header>

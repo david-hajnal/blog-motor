@@ -157,3 +157,92 @@ button:hover {
 .category-nav a:hover {
   text-decoration: underline;
 }
+
+/* 404 Page styling */
+.not-found {
+  text-align: center;
+  padding: 40px;
+  background-color: #17473B;
+  color: #FFD100;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.not-found h2 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.not-found p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.not-found .btn {
+  background-color: #006641;
+  color: #E0E0E0;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.not-found .btn:hover {
+  background-color: #8EC649;
+}
+
+/* Admin page styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  border: 1px solid #006641;
+  padding: 10px;
+  text-align: left;
+}
+
+.btn {
+  background-color: #006641;
+  color: #E0E0E0;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  display: inline-block;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #8EC649;
+}
+
+/* View post styling */
+.blog-post-thumbnail {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.btn {
+  background-color: #006641;
+  color: #E0E0E0;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  display: inline-block;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #8EC649;
+}
+
+.site-header a{
+  text-decoration: none;
+}

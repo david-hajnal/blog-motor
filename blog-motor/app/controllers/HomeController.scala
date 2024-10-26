@@ -30,24 +30,21 @@ class HomeController @Inject() (
     } yield Ok(views.html.home(posts, headerTitle.getOrElse(""), categories))
   }
 
-  def show(id: Long): Action[AnyContent] = Action.async {
+  def show(slug: String): Action[AnyContent] = Action.async { implicit request =>
     val headerTitleFuture = settingsDAO.getSetting("header_title")
-    val categoriesFuture = blogPostDAO.listCategories()
-    val blogPostFuture = blogPostDAO.findById(id)
+    val categoriesFuture  = blogPostDAO.listCategories()
+    val blogPostFuture    = blogPostDAO.findBySlug(slug)
 
     for {
       headerTitleOpt <- headerTitleFuture
-      categories <- categoriesFuture
-      blogPostOpt <- blogPostFuture
-    } yield {
-      blogPostOpt match {
-        case Some(blogPost) =>
-          val headerTitle = headerTitleOpt.getOrElse("")
-          Ok(views.html.blogPost(blogPost, headerTitle, categories))
-        case None =>
-          val headerTitle = headerTitleOpt.getOrElse("")
-          NotFound(views.html.notFound(headerTitle, categories))
-      }
+      categories     <- categoriesFuture
+      blogPostOpt    <- blogPostFuture
+    } yield blogPostOpt match {
+      case Some(blogPost) =>
+        val headerTitle = headerTitleOpt.getOrElse("Blog")
+        Ok(views.html.blogPost(blogPost, headerTitle, categories))
+      case None =>
+        NotFound(views.html.notFound(headerTitleOpt.getOrElse("Blog"), categories))
     }
   }
 }

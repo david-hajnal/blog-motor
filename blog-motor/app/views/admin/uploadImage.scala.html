@@ -1,0 +1,13 @@
+@()(implicit request: RequestHeader, messages: play.api.i18n.Messages)
+
+@main("Upload Image") {
+  <h1>Upload Image</h1>
+  @helper.form(action = routes.AdminController.uploadImage(), Symbol("enctype") -> "multipart/form-data") {
+    @helper.CSRF.formField
+    <div>
+      <label for="image">Choose an image:</label>
+      <input type="file" name="image" id="image" accept="image/*" required />
+    </div>
+    <button type="submit" class="btn">Upload</button>
+  }
+}
