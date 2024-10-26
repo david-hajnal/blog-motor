@@ -1,0 +1,24 @@
+@(errorMessage: Option[String])(implicit request: RequestHeader, messages: play.api.i18n.Messages)
+
+@main("Admin Login") {
+  <h2>Admin Login</h2>
+
+  @errorMessage.map { message =>
+    <p style="color: red;">@message</p>
+  }
+
+  @helper.form(action = routes.AuthController.loginSubmit(), Symbol("method") -> "POST") {
+    @helper.CSRF.formField
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" required>
+    </div>
+
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required>
+    </div>
+
+    <button type="submit">Login</button>
+  }
+}

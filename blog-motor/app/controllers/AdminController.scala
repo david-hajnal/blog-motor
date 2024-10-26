@@ -15,13 +15,21 @@ import play.api.libs.Files.TemporaryFile
 import java.time.OffsetDateTime
 import scala.concurrent.{ExecutionContext, Future}
 import java.text.Normalizer
+import actions.AuthenticatedAction
+import actions.AuthenticatedAction
+import javax.inject._
+import play.api.mvc._
+import scala.concurrent.ExecutionContext
+
+
 
 @Singleton
 class AdminController @Inject() (
   cc: ControllerComponents,
   blogPostDAO: BlogPostDAO,
   imageDAO: ImageDAO,
-  settingsDAO: SettingsDAO
+  settingsDAO: SettingsDAO,
+  authenticatedAction: AuthenticatedAction
 )(implicit
   ec: ExecutionContext
 ) extends AbstractController(cc)
@@ -41,13 +49,15 @@ class AdminController @Inject() (
     )(BlogPost.apply)(BlogPost.unapply)
   )
 
-  def index(): Action[AnyContent] = Action.async { implicit request =>
-    settingsDAO.getSetting("headerTitle").map { headerTitleOpt =>
-      Ok(views.html.admin.index(headerTitleOpt.getOrElse("")))
-    }
+  def index(): Action[AnyContent] =
+    authenticatedAction.async { implicit request =>
+      settingsDAO.getSetting("headerTitle").map { headerTitleOpt =>
+        Ok(views.html.admin.index(headerTitleOpt.getOrElse("")))
+      }
+
   }
 
-  def listPosts(): Action[AnyContent] = Action.async { implicit request =>
+  def listPosts(): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostDAO.listAll().map { posts =>
       Ok(views.html.admin.listPosts(posts))
     }
@@ -61,7 +71,7 @@ class AdminController @Inject() (
 
   private val empty: Seq[Image] = Seq.empty[Image]
 
-  def createPost(): Action[AnyContent] = Action.async { implicit request =>
+  def createPost(): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostForm.bindFromRequest.fold(
       formWithErrors =>
         Future.successful(
@@ -78,7 +88,7 @@ class AdminController @Inject() (
     )
   }
 
-  def deletePost(id: Long): Action[AnyContent] = Action.async { implicit request =>
+  def deletePost(id: Long): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostDAO.deleteById(id).map { result =>
       if (result > 0) {
         Redirect(routes.AdminController.listPosts())
@@ -89,7 +99,7 @@ class AdminController @Inject() (
     }
   }
 
-  def editPost(id: Long): Action[AnyContent] = Action.async { implicit request =>
+  def editPost(id: Long): Action[AnyContent] = authenticatedAction.async { implicit request =>
     for {
       postOpt <- blogPostDAO.findById(id)
       images  <- imageDAO.listAll()
@@ -100,7 +110,7 @@ class AdminController @Inject() (
     }
   }
 
-  def updatePost(id: Long): Action[AnyContent] = Action.async { implicit request =>
+  def updatePost(id: Long): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostForm.bindFromRequest.fold(
       formWithErrors =>
         Future.successful(
@@ -117,19 +127,19 @@ class AdminController @Inject() (
     )
   }
 
-  def viewPost(id: Long): Action[AnyContent] = Action.async { implicit request =>
+  def viewPost(id: Long): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostDAO.findById(id).map {
       case Some(post) => Ok(views.html.admin.viewPost(post))
       case None       => NotFound("Blog post not found")
     }
   }
 
-  def showUploadImageForm(): Action[AnyContent] = Action { implicit request =>
+  def showUploadImageForm(): Action[AnyContent] = authenticatedAction { implicit request =>
     Ok(views.html.admin.uploadImage())
   }
 
   def uploadImage(): Action[MultipartFormData[TemporaryFile]] =
-    Action.async(parse.multipartFormData) { implicit request =>
+    authenticatedAction.async(parse.multipartFormData) { implicit request =>
       request.body
         .file("image")
         .map { imageFile =>
@@ -148,7 +158,7 @@ class AdminController @Inject() (
         }
     }
 
-  def editSettings(): Action[AnyContent] = Action.async { implicit request =>
+  def editSettings(): Action[AnyContent] = authenticatedAction.async { implicit request =>
     settingsDAO.getSetting("headerTitle").map { headerTitleOpt =>
       val settingsForm =
         SettingsForm.form.fill(SettingsForm(headerTitleOpt.getOrElse("Default Title")))
@@ -157,7 +167,7 @@ class AdminController @Inject() (
   }
 
   // Handle settings form submission
-  def updateSettings(): Action[AnyContent] = Action.async { implicit request =>
+  def updateSettings(): Action[AnyContent] = authenticatedAction.async { implicit request =>
     SettingsForm.form.bindFromRequest.fold(
       formWithErrors =>
         Future.successful(BadRequest(views.html.admin.editSettings(formWithErrors))),

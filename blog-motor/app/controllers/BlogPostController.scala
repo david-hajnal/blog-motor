@@ -7,8 +7,12 @@ import play.api.mvc._
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class BlogPostController @Inject()(cc: ControllerComponents, blogPostDAO: BlogPostDAO)
-                                  (implicit ec: ExecutionContext) extends AbstractController(cc) {
+class BlogPostController @Inject() (
+  cc: ControllerComponents,
+  blogPostDAO: BlogPostDAO,
+  settingsDAO: dao.SettingsDAO
+)(implicit ec: ExecutionContext)
+    extends AbstractController(cc) {
 
   def list(): Action[AnyContent] = Action.async {
     blogPostDAO.listAll().map { posts =>
@@ -19,36 +23,44 @@ class BlogPostController @Inject()(cc: ControllerComponents, blogPostDAO: BlogPo
   def listPaginated(page: Int): Action[AnyContent] = Action.async {
     val pageSize = 6
     for {
-      total <- blogPostDAO.count()
-      posts <- blogPostDAO.list(page, pageSize)
+      total       <- blogPostDAO.count()
+      posts       <- blogPostDAO.list(page, pageSize)
+      headerTitle <- settingsDAO.getSetting("header_title")
+      categories  <- blogPostDAO.listCategories()
     } yield {
       val totalPages = (total + pageSize - 1) / pageSize // Calculate the total number of pages
-      Ok(views.html.blogPostList(posts, page, totalPages))
+      Ok(views.html.blogPostList(posts, headerTitle.getOrElse(""), categories, page, totalPages))
     }
   }
 
   def get(id: Long): Action[AnyContent] = Action.async {
     blogPostDAO.findById(id).map {
       case Some(post) => Ok(play.api.libs.json.Json.toJson(post))
-      case None => NotFound
+      case None       => NotFound
     }
   }
 
   def create(): Action[play.api.libs.json.JsValue] = Action.async(parse.json) { request =>
-    request.body.validate[BlogPost].map { postData =>
-      blogPostDAO.create(postData).map { createdPost =>
-        Created(play.api.libs.json.Json.toJson(createdPost))
+    request.body
+      .validate[BlogPost]
+      .map { postData =>
+        blogPostDAO.create(postData).map { createdPost =>
+          Created(play.api.libs.json.Json.toJson(createdPost))
+        }
       }
-    }.getOrElse(Future.successful(BadRequest("Invalid JSON")))
+      .getOrElse(Future.successful(BadRequest("Invalid JSON")))
   }
 
   def update(id: Long): Action[play.api.libs.json.JsValue] = Action.async(parse.json) { request =>
-    request.body.validate[BlogPost].map { postData =>
-      blogPostDAO.update(id, postData).map {
-        case 0 => NotFound
-        case _ => NoContent
+    request.body
+      .validate[BlogPost]
+      .map { postData =>
+        blogPostDAO.update(id, postData).map {
+          case 0 => NotFound
+          case _ => NoContent
+        }
       }
-    }.getOrElse(Future.successful(BadRequest("Invalid JSON")))
+      .getOrElse(Future.successful(BadRequest("Invalid JSON")))
   }
 
   def delete(id: Long): Action[AnyContent] = Action.async {

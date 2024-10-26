@@ -93,3 +93,18 @@ X
 (blog-motor/conf/evolutions/default/9.sql,0/f/0fd6fd29fdb4a90497283c648da47f341ee365a3
 e
 5blog-motor/app/views/partials/admin.header.scala.html,d/f/df3f781e08198d381fcdedbda37d96c4c61e4ab0
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+O
+blog-motor/app/utils.JwtUtility,0/a/0a419488ec61639c564d0597cede353615d68ea2
+U
+%blog-motor/app/utils/JwtUtility.scala,a/9/a9dde4c345d5e1935e3d7799ae422aebea70863c
+_
+/blog-motor/app/controllers/AuthController.scala,8/e/8ee96811f4c9a553ea5437fad634d44447e0680b
+`
+0blog-motor/app/actions/AuthenticatedAction.scala,b/b/bbe529b56afa8893f37b8793a61637fcc57b89e7
+\
+,blog-motor/app/views/admin/login.scala.html:,9/3/93f44d838a16a51211fe0f57dbee2430d7ce3988
+[
++blog-motor/app/views/admin/login.scala.html,5/6/5694f92740dfd2aacdc518ec11b50f284b2787ea

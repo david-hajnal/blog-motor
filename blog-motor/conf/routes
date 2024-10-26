@@ -9,6 +9,10 @@ GET         /p/page/:page                  controllers.BlogPostController.listPa
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)
 
+# Routes for login
+GET         /admin/login                   controllers.AuthController.showLoginForm()
+POST        /admin/login                   controllers.AuthController.loginSubmit()
+
 GET         /admin/                        controllers.AdminController.index()
 GET         /admin/posts                   controllers.AdminController.listPosts()
 GET         /admin/posts/new               controllers.AdminController.newPost()

@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.slick" %% "slick" % "3.4.1",
   "com.typesafe.slick" %% "slick-hikaricp" % "3.4.1"
 )
+libraryDependencies += "com.github.jwt-scala" %% "jwt-play" % "9.0.5"
 dependencyOverrides += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
 
 
