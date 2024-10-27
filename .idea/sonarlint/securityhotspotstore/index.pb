@@ -108,3 +108,7 @@ _
 ,blog-motor/app/views/admin/login.scala.html:,9/3/93f44d838a16a51211fe0f57dbee2430d7ce3988
 [
 +blog-motor/app/views/admin/login.scala.html,5/6/5694f92740dfd2aacdc518ec11b50f284b2787ea
+E
+blog-motor/Dockerfile,3/d/3d06e8f7bc1866064e8ecf7db7c04c4f15e501bc
+C
+blog-motor/start.sh,d/7/d7d35a689fe8b7c5f961dfa4b8b522945611a3eb
