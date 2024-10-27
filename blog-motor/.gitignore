@@ -8,3 +8,5 @@ target
 /.settings
 /RUNNING_PID
 start.sh
+prod.db
+docker-compose.yml

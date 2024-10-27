@@ -7,7 +7,7 @@
   @for(blogPost <- blogPosts) {
     <div class="blog-post">
       <div class="blog-post-thumbnail">
-        <img src="@blogPost.thumbnailUrl" alt="Thumbnail for @blogPost.title" />
+          <img src="@routes.ImageController.getImage(blogPost.thumbnailUrl.toLong)" alt="Thumbnail for @blogPost.title">
       </div>
       <div class="blog-post-title">
         <a href="@routes.HomeController.show(blogPost.slug)">@blogPost.title</a>

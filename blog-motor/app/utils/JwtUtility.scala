@@ -11,7 +11,8 @@ object JwtUtility {
 
   // Generates a JWT token
   def generateToken(username: String)(implicit config: Configuration): String = {
-    val secretKey = config.get[String]("jwt.secret")
+    //val secretKey = config.get[String]("jwt.secret")
+    val secretKey = "faszom"
     val claim = JwtClaim()
       .issuedNow(Clock.systemUTC)
       .expiresIn(3600) // Token expires in 1 hour
@@ -21,7 +22,8 @@ object JwtUtility {
 
   // Verifies and decodes a JWT token
   def verifyToken(token: String)(implicit config: Configuration): Try[JwtClaim] = {
-    val secretKey = config.get[String]("jwt.secret")
+    //val secretKey = config.get[String]("jwt.secret")
+    val secretKey = "faszom"
     Jwt.decode(token, secretKey, Seq(JwtAlgorithm.HS256))
   }
 }

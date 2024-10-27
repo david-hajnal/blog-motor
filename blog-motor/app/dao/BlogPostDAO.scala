@@ -43,8 +43,8 @@ class BlogPostDAO @Inject() (dbProvider: DatabaseConfigProvider)(implicit ec: Ex
 
   def update(id: Long, blogPost: BlogPost): Future[Int] = {
     val updateQuery = blogPosts.filter(_.id === id)
-      .map(post => (post.title, post.content, post.category, post.date))
-      .update((blogPost.title, blogPost.content, blogPost.category, blogPost.date))
+      .map(post => (post.title, post.content, post.category, post.date, post.thumbnailUrl, post.slug))
+      .update((blogPost.title, blogPost.content, blogPost.category, blogPost.date, blogPost.thumbnailUrl, blogPost.slug))
     db.run(updateQuery)
   }
 

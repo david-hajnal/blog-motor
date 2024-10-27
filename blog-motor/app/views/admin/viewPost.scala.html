@@ -1,10 +1,12 @@
 @(post: models.BlogPost)(implicit request: RequestHeader, messages: play.api.i18n.Messages)
 
-@main("Admin - View Blog Post") {
-  @views.html.partials.admin_header("Admin", Seq.empty[String])
-  <h1>@post.title</h1>
-  <img src="@post.thumbnailUrl" alt="Thumbnail for @post.title" class="blog-post-thumbnail" />
-  <p><strong>Category:</strong> @post.category</p>
-  <div>@Html(post.content)</div>
-  <a href="@routes.AdminController.listPosts()" class="btn">Back to Posts</a>
-}
+  @main("Admin - View Blog Post") {
+    @views.html.partials.admin_header("Admin", Seq.empty[String])
+    <h1>@post.title</h1>
+    <div class="image-container">
+      <img src="@routes.ImageController.getImage(post.thumbnailUrl.toLong)" alt="thumbnail">
+    </div>
+    <p><strong>Category:</strong> @post.category</p>
+    <div>@Html(post.content)</div>
+    <a href="@routes.AdminController.listPosts()" class="btn">Back to Posts</a>
+  }

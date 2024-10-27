@@ -246,3 +246,18 @@ table th, table td {
 .site-header a{
   text-decoration: none;
 }
+
+/* Make the image responsive */
+img {
+  max-width: 100%;    /* Scales the image down to fit within the container width */
+  height: auto;       /* Maintains the aspect ratio */
+  display: block;     /* Removes the bottom spacing around the image */
+  margin: 0 auto;     /* Centers the image horizontally if it's within a smaller container */
+}
+
+/* Optional: Style the image container to make it responsive */
+.image-container {
+  max-width: 100vw;   /* Max width to fit within the viewport width */
+  max-height: 100vh;  /* Max height to fit within the viewport height */
+  overflow: hidden;   /* Prevents overflow if the image is larger than the container */
+}
