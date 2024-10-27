@@ -5,12 +5,19 @@ import play.api.mvc._
 
 import javax.inject._
 import scala.concurrent.ExecutionContext
+<<<<<<< HEAD
 import actions.AuthenticatedAction
 import play.api.i18n.I18nSupport
 
 @Singleton
 class ImageController @Inject()(cc: ControllerComponents, imageDAO: ImageDAO, authenticatedAction: AuthenticatedAction)(implicit ec: ExecutionContext)
   extends AbstractController(cc) with I18nSupport {
+=======
+
+@Singleton
+class ImageController @Inject()(cc: ControllerComponents, imageDAO: ImageDAO)(implicit ec: ExecutionContext)
+  extends AbstractController(cc) {
+>>>>>>> a7bc41d (fix image load and save, docker fixes)
 
   def getImage(id: Long): Action[AnyContent] = Action.async { implicit request =>
     imageDAO.findById(id).map {
@@ -20,6 +27,7 @@ class ImageController @Inject()(cc: ControllerComponents, imageDAO: ImageDAO, au
         NotFound("Image not found")
     }
   }
+<<<<<<< HEAD
 
   def deleteImage(id: Long): Action[AnyContent] = Action.async { implicit request =>
     imageDAO.deleteById(id).map { _ =>
@@ -32,4 +40,6 @@ class ImageController @Inject()(cc: ControllerComponents, imageDAO: ImageDAO, au
       Ok(views.html.admin.listImages(images))
     }
   }
+=======
+>>>>>>> a7bc41d (fix image load and save, docker fixes)
 }

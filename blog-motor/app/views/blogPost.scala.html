@@ -3,5 +3,8 @@
 @main("Blog Post") {
   @views.html.partials.header(headerTitle, categories)
   <h1>@blogPost.title</h1>
+  <div class="image-container">
+    <img src="@routes.ImageController.getImage(blogPost.thumbnailUrl.toLong)" alt="thumbnail">
+  </div>
   <p>@Html(blogPost.content)</p>
 }

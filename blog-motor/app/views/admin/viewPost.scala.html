@@ -4,7 +4,11 @@
     @views.html.partials.admin_header("Admin", Seq.empty[String])
     <h1>@post.title</h1>
     <div class="image-container">
+<<<<<<< HEAD
       <img src="@routes.ImageController.getImage(post.thumbnailUrl.toLong)" alt="thumbnail" style="max-width: ">
+=======
+      <img src="@routes.ImageController.getImage(post.thumbnailUrl.toLong)" alt="thumbnail">
+>>>>>>> a7bc41d (fix image load and save, docker fixes)
     </div>
     <p><strong>Category:</strong> @post.category</p>
     <div>@Html(post.content)</div>
