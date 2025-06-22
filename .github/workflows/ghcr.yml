@@ -20,8 +20,9 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract version from tag
-        # e.g. refs/tags/v1.2.3 -> 1.2.3
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+        run: |
+          # Strip "refs/tags/v" prefix to get "1.2.3"
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
     
       - name: Build & push Docker image
         uses: docker/build-push-action@v4
@@ -32,8 +33,5 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/blog-motor:${{ env.VERSION }}
             ghcr.io/${{ github.repository_owner }}/blog-motor:latest
     
-      - name: Verify pushed tags
-        run: |
-          echo "Pushed image tags:"
-          echo " - ghcr.io/${{ github.repository_owner }}/blog-motor:${{ env.VERSION }}"
-          echo " - ghcr.io/${{ github.repository_owner }}/blog-motor:latest"
+      - name: Output pushed tag
+        run: echo "Pushed ghcr.io/${{ github.repository_owner }}/blog-motor:${{ env.VERSION }}"
