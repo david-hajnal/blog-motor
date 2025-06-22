@@ -1,27 +1,19 @@
 package controllers
 
-import dao.BlogPostDAO
-import dao.SettingsDAO
-import dao.ImageDAO
+import actions.AuthenticatedAction
+import dao.{BlogPostDAO, ImageDAO, SettingsDAO}
 import forms.SettingsForm
-import models.BlogPost
-import models.Image
-import javax.inject._
-import play.api.data._
+import models.{BlogPost, Image}
 import play.api.data.Forms._
+import play.api.data._
 import play.api.i18n.I18nSupport
-import play.api.mvc._
 import play.api.libs.Files.TemporaryFile
-import java.time.OffsetDateTime
-import scala.concurrent.{ExecutionContext, Future}
-import java.text.Normalizer
-import actions.AuthenticatedAction
-import actions.AuthenticatedAction
-import javax.inject._
 import play.api.mvc._
-import scala.concurrent.ExecutionContext
 
-
+import java.text.Normalizer
+import java.time.OffsetDateTime
+import javax.inject._
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class AdminController @Inject() (
@@ -55,7 +47,7 @@ class AdminController @Inject() (
         Ok(views.html.admin.index(headerTitleOpt.getOrElse("")))
       }
 
-  }
+    }
 
   def listPosts(): Action[AnyContent] = authenticatedAction.async { implicit request =>
     blogPostDAO.listAll().map { posts =>

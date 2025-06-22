@@ -22,4 +22,8 @@ class ImageDAO @Inject()(dbProvider: DatabaseConfigProvider)(implicit ec: Execut
   def findById(id: Long): Future[Option[Image]] = {
     db.run(images.filter(_.id === id).result.headOption)
   }
+
+  def deleteById(id: Long) = {
+    db.run(images.filter(_.id === id).delete)
+  }
 }

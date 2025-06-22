@@ -27,3 +27,5 @@ GET         /admin/settings                controllers.AdminController.editSetti
 POST        /admin/settings                controllers.AdminController.updateSettings()
 GET         /:slug                         controllers.HomeController.show(slug: String)
 GET         /images/:id                    controllers.ImageController.getImage(id: Long)
+GET         /admin/images                  controllers.ImageController.listImages()
+POST        /admin/images/:id              controllers.ImageController.deleteImage(id: Long)
