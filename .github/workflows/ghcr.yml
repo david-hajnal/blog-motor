@@ -28,8 +28,9 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./blog-motor
+          file: ./blog-motor/Dockerfile
           push: true
-          file: Dockerfile
+
           tags: |
             ghcr.io/${{ github.repository_owner }}/blog-motor:latest
     
