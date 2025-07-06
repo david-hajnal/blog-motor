@@ -35,8 +35,7 @@ ENV PLAY_HTTP_SECRET_KEY="changeme"
 ENV TINYMCE_API_KEY="changeme"
 
 # Expose the application port (default is 9000 for Play applications)
-EXPOSE 9000
+EXPOSE 8080
 
 # Set the entrypoint to run the Play application
-CMD ["/app/play-app/bin/blog-motor", "-Dplay.evolutions.db.default.autoApply=true"]
-
+CMD ["/app/play-app/bin/blog-motor", "-Dplay.evolutions.db.default.autoApply=true", "-Dhttp.port=8080"]
