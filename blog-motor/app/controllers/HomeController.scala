@@ -22,16 +22,21 @@ class HomeController @Inject() (
 )(implicit ec: ExecutionContext)
     extends BaseController {
 
+  private val logger = Logger(this.getClass)
+
   def listHtml(): Action[AnyContent] = Action.async {
     for {
-      headerTitle <- settingsDAO.getSetting("header_title")
+      headerTitle <- settingsDAO.getSetting("headerTitle")
       categories  <- blogPostDAO.listCategories()
       posts       <- blogPostDAO.list(0, 12)
-    } yield Ok(views.html.home(posts, headerTitle.getOrElse(""), categories))
+    } yield {
+      logger.debug(s"HeaderTitle for listHtml: ${headerTitle.getOrElse("(empty)")}")
+      Ok(views.html.home(posts, headerTitle.getOrElse(""), categories))
+    }
   }
 
   def show(slug: String): Action[AnyContent] = Action.async { implicit request =>
-    val headerTitleFuture = settingsDAO.getSetting("header_title")
+    val headerTitleFuture = settingsDAO.getSetting("headerTitle")
     val categoriesFuture  = blogPostDAO.listCategories()
     val blogPostFuture    = blogPostDAO.findBySlug(slug)
 
@@ -39,12 +44,15 @@ class HomeController @Inject() (
       headerTitleOpt <- headerTitleFuture
       categories     <- categoriesFuture
       blogPostOpt    <- blogPostFuture
-    } yield blogPostOpt match {
-      case Some(blogPost) =>
-        val headerTitle = headerTitleOpt.getOrElse("Blog")
-        Ok(views.html.blogPost(blogPost, headerTitle, categories))
-      case None =>
-        NotFound(views.html.notFound(headerTitleOpt.getOrElse("Blog"), categories))
+    } yield {
+      logger.debug(s"HeaderTitle for show($slug): ${headerTitleOpt.getOrElse("(empty)")}")
+      blogPostOpt match {
+        case Some(blogPost) =>
+          val headerTitle = headerTitleOpt.getOrElse("Blog")
+          Ok(views.html.blogPost(blogPost, headerTitle, categories))
+        case None =>
+          NotFound(views.html.notFound(headerTitleOpt.getOrElse("Blog"), categories))
+      }
     }
   }
 }

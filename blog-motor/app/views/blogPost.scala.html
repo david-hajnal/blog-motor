@@ -1,10 +1,14 @@
 @(blogPost: models.BlogPost, headerTitle: String, categories: Seq[String])
 
-@main("Blog Post") {
+@main(headerTitle) {
   @views.html.partials.header(headerTitle, categories)
-  <h1>@blogPost.title</h1>
-  <div class="image-container">
-    <img src="@routes.ImageController.getImage(blogPost.thumbnailUrl.toLong)" alt="thumbnail">
+  <div class="single-post">
+    <div class="image-container">
+      <img src="@routes.ImageController.getImage(blogPost.thumbnailUrl.toLong)" alt="thumbnail">
+    </div>
+    <div class="post-text">
+      <h1>@blogPost.title</h1>
+      <p>@Html(blogPost.content)</p>
+    </div>
   </div>
-  <p>@Html(blogPost.content)</p>
 }
