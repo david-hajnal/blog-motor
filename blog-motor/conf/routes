@@ -4,7 +4,6 @@
 # ~~~~
 
 GET         /                              controllers.HomeController.listHtml()
-GET         /p/page/:page                  controllers.BlogPostController.listPaginated(page: Int)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                  controllers.Assets.versioned(path="/public", file: Asset)
@@ -27,3 +26,4 @@ GET         /admin/settings                controllers.AdminController.editSetti
 POST        /admin/settings                controllers.AdminController.updateSettings()
 GET         /:slug                         controllers.HomeController.show(slug: String)
 GET         /images/:id                    controllers.ImageController.getImage(id: Long)
+GET         /category/:category/page/:page controllers.BlogPostController.listPaginated(category: String, page: Int)

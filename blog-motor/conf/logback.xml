@@ -40,9 +40,9 @@
   </appender>
 
   <logger name="play" level="INFO"/>
-  <logger name="application" level="DEBUG"/>
-  <logger name="controllers" level="DEBUG"/>
-  <logger name="dao" level="DEBUG"/>
+  <logger name="application" level="WARN"/>
+  <logger name="controllers" level="WARN"/>
+  <logger name="dao" level="WARN"/>
 
   <root level="WARN">
     <appender-ref ref="ASYNCFILE"/>

@@ -4,7 +4,7 @@
   <h1><a href="/">@headerTitle</a></h1>
   <nav class="category-nav">
     @for(category <- categories) {
-      <a href="@routes.BlogPostController.listPaginated(1)?category=@category">@category</a>
+      <a href="@routes.BlogPostController.listPaginated(category, 1)">@category</a>
     }
   </nav>
 </header>

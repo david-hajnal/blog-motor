@@ -28,7 +28,7 @@ class HomeController @Inject() (
     for {
       headerTitle <- settingsDAO.getSetting("headerTitle")
       categories  <- blogPostDAO.listCategories()
-      posts       <- blogPostDAO.list(0, 12)
+      posts       <- blogPostDAO.list(0, 120)
     } yield {
       logger.debug(s"HeaderTitle for listHtml: ${headerTitle.getOrElse("(empty)")}")
       Ok(views.html.home(posts, headerTitle.getOrElse(""), categories))

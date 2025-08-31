@@ -53,5 +53,22 @@ class BlogPostDAO @Inject() (dbProvider: DatabaseConfigProvider)(implicit ec: Ex
   }
 
   def delete(id: Long): Future[Int] = db.run(blogPosts.filter(_.id === id).delete)
-}
 
+  // Count posts by category for pagination
+  def countByCategory(category: String): Future[Int] = {
+    db.run(blogPosts.filter(_.category === category).length.result)
+  }
+
+  // List posts by category with paging
+  def listByCategory(category: String, page: Int, pageSize: Int): Future[Seq[BlogPost]] = {
+    val offset = (page - 1) * pageSize
+    db.run(
+      blogPosts
+        .filter(_.category === category)
+        .sortBy(_.date.desc)
+        .drop(offset)
+        .take(pageSize)
+        .result
+    )
+  }
+}

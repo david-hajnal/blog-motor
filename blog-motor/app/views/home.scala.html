@@ -1,6 +1,6 @@
 @(blogPosts: Seq[models.BlogPost], headerTitle: String, categories: Seq[String])
 
-@main("Home") {
+@main(headerTitle) {
   @views.html.partials.header(headerTitle, categories)
 
   <div class="blog-posts-container">

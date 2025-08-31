@@ -25,10 +25,26 @@ class BlogPostController @Inject() (
     for {
       total       <- blogPostDAO.count()
       posts       <- blogPostDAO.list(page, pageSize)
-      headerTitle <- settingsDAO.getSetting("header_title")
+      // use consistent settings key
+      headerTitle <- settingsDAO.getSetting("headerTitle")
       categories  <- blogPostDAO.listCategories()
     } yield {
       val totalPages = (total + pageSize - 1) / pageSize // Calculate the total number of pages
+      Ok(views.html.blogPostList(posts, headerTitle.getOrElse(""), categories, page, totalPages))
+    }
+  }
+
+  // Paginated list filtered by category
+  def listPaginated(category: String, page: Int): Action[AnyContent] = Action.async {
+    val pageSize = 6
+    for {
+      total       <- blogPostDAO.countByCategory(category)
+      posts       <- blogPostDAO.listByCategory(category, page, pageSize)
+      // use consistent settings key
+      headerTitle <- settingsDAO.getSetting("headerTitle")
+      categories  <- blogPostDAO.listCategories()
+    } yield {
+      val totalPages = (total + pageSize - 1) / pageSize
       Ok(views.html.blogPostList(posts, headerTitle.getOrElse(""), categories, page, totalPages))
     }
   }
