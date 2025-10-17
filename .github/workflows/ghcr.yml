@@ -2,6 +2,8 @@ name: Publish to GHCR
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   publish:
@@ -11,6 +13,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Log in to GHCR
         uses: docker/login-action@v2
@@ -19,20 +23,39 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract version from tag
+      - name: Extract version and metadata
+        id: meta
         run: |
-          # Strip "refs/tags/v" prefix to get "1.2.3"
-          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
-    
+          # Default to git SHA for branch pushes
+          VERSION=$(git rev-parse --short HEAD)
+          TAGS="ghcr.io/${{ github.repository_owner }}/blog-motor:sha-${VERSION}"
+
+          # If this is a tag push, extract semantic version
+          if [[ $GITHUB_REF == refs/tags/v* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+            MAJOR=$(echo $VERSION | cut -d. -f1)
+            MINOR=$(echo $VERSION | cut -d. -f1,2)
+
+            TAGS="ghcr.io/${{ github.repository_owner }}/blog-motor:${VERSION}"
+            TAGS="${TAGS},ghcr.io/${{ github.repository_owner }}/blog-motor:${MINOR}"
+            TAGS="${TAGS},ghcr.io/${{ github.repository_owner }}/blog-motor:${MAJOR}"
+            TAGS="${TAGS},ghcr.io/${{ github.repository_owner }}/blog-motor:latest"
+          elif [[ $GITHUB_REF == refs/heads/main ]]; then
+            TAGS="${TAGS},ghcr.io/${{ github.repository_owner }}/blog-motor:latest"
+          fi
+
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "TAGS=${TAGS}" >> $GITHUB_OUTPUT
+
       - name: Build & push Docker image
         uses: docker/build-push-action@v4
         with:
           context: ./blog-motor
           file: ./blog-motor/Dockerfile
           push: true
+          tags: ${{ steps.meta.outputs.TAGS }}
 
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/blog-motor:latest
-    
-      - name: Output pushed tag
-        run: echo "Pushed ghcr.io/${{ github.repository_owner }}/blog-motor:${{ env.VERSION }}"
+      - name: Output pushed tags
+        run: |
+          echo "Pushed tags:"
+          echo "${{ steps.meta.outputs.TAGS }}" | tr ',' '\n'
